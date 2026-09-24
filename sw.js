@@ -1,5 +1,5 @@
 // เก็บเฉพาะหน้าแอป (ไม่เก็บระบบ Google) — แก้เลขเวอร์ชันทุกครั้งที่อัปเดต index.html
-const CACHE = 'chakuma-v1';
+const CACHE = 'chakuma-v3';
 const SHELL = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './favicon.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
