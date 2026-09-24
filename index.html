@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#6B4226">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ชาคุมะ">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500&family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
+<title>ชาคุมะ By ออยลี่</title>
+<style>
+  :root{
+    --tea:#6B4226; --milk:#F3E6D3; --pearl:#2B1A10; --matcha:#5E7D3A;
+    --paper:#FFFBF5; --line:#E4D3BC; --soft:#7A5A42;
+    --top:env(safe-area-inset-top,0px); --bot:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%;overflow:hidden}
+  body{background:var(--milk);color:var(--pearl);font-family:"Sarabun",system-ui,sans-serif;font-size:17px;line-height:1.5}
+  .view{position:fixed;inset:0;display:flex;flex-direction:column}
+  .hidden{display:none!important}
+
+  /* หน้าแรก */
+  #home{overflow-y:auto;-webkit-overflow-scrolling:touch}
+  #home main{max-width:440px;width:100%;margin:0 auto;padding:calc(24px + var(--top)) 20px calc(28px + var(--bot))}
+  .brand{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+  .brand img{width:58px;height:58px;border-radius:14px}
+  h1{font-family:"Mitr",sans-serif;font-weight:500;font-size:26px;line-height:1.15;margin:0;color:var(--tea)}
+  .today{margin:2px 0 0;color:var(--soft);font-size:15px}
+  h2{font-family:"Mitr",sans-serif;font-weight:400;font-size:18px;margin:22px 0 10px}
+  .hint{margin:-6px 0 12px;font-size:15px;color:var(--soft)}
+  button.btn{
+    width:100%;display:flex;align-items:center;gap:16px;text-align:left;font:inherit;color:inherit;cursor:pointer;
+    background:var(--paper);border:2px solid var(--line);border-radius:18px;
+    padding:16px 18px;margin-bottom:12px;min-height:82px;
+  }
+  button.btn:active{transform:scale(.98)}
+  .icon{flex:0 0 52px;height:52px;border-radius:50%;display:grid;place-items:center;font-size:26px}
+  button.btn.me{border-left:8px solid var(--tea)} .me .icon{background:var(--tea)}
+  button.btn.shop{border-left:8px solid var(--matcha)} .shop .icon{background:var(--matcha)}
+  .t{font-family:"Mitr",sans-serif;font-size:20px;font-weight:500;display:block}
+  .d{font-size:15px;color:var(--soft);display:block}
+  .note{margin-top:24px;padding:14px 16px;border-radius:14px;background:var(--paper);border:1px dashed var(--line);font-size:15px}
+  #install{display:none;width:100%;margin-top:14px;padding:14px;border:0;border-radius:14px;background:var(--tea);color:#fff;font:500 17px "Mitr",sans-serif}
+  #iosTip{display:none}
+
+  /* หน้าระบบ */
+  #app{background:var(--paper)}
+  .bar{
+    flex:0 0 auto;display:flex;align-items:center;gap:6px;
+    padding:calc(6px + var(--top)) 8px 6px;background:var(--tea);color:#fff;
+  }
+  .bar button{flex:0 0 auto;min-width:48px;height:44px;border:0;border-radius:12px;background:transparent;color:#fff;font:500 16px "Mitr",sans-serif;cursor:pointer}
+  .bar button:active{background:rgba(255,255,255,.15)}
+  .bar .title{flex:1;min-width:0;font:500 18px "Mitr",sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
+  .frames{position:relative;flex:1;padding-bottom:var(--bot);background:var(--paper)}
+  .frames iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:var(--paper)}
+  .loading{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:16px;color:var(--soft);text-align:center;padding:24px}
+  .spin{width:42px;height:42px;border-radius:50%;border:4px solid var(--line);border-top-color:var(--tea);animation:s 1s linear infinite}
+  @keyframes s{to{transform:rotate(360deg)}}
+  .loading button{padding:12px 18px;border:2px solid var(--tea);border-radius:12px;background:#fff;color:var(--tea);font:500 16px "Mitr",sans-serif}
+  @media (prefers-reduced-motion:reduce){.spin{animation:none}button.btn:active{transform:none}}
+</style>
+</head>
+<body>
+
+<section id="home" class="view">
+<main>
+  <div class="brand">
+    <img src="icon-192.png" alt="">
+    <div><h1>ชาคุมะ By ออยลี่</h1><p class="today" id="today"></p></div>
+  </div>
+
+  <h2>ของฉัน</h2>
+  <p class="hint">ข้อมูลส่วนตัว เห็นเฉพาะของตัวเอง</p>
+  <button class="btn me" data-app="checkin">
+    <span class="icon">🕐</span>
+    <span><span class="t">เข้างาน / เลิกงาน</span><span class="d">และดูรายการหักเงินของฉัน</span></span>
+  </button>
+
+  <h2>งานร้าน</h2>
+  <p class="hint">อย่าลืมเช็กว่าเลือกสาขาถูกก่อนบันทึก</p>
+  <button class="btn shop" data-app="close">
+    <span class="icon">💰</span>
+    <span><span class="t">ปิดยอดประจำวัน</span><span class="d">ยอดขาย นับเงิน นับแก้ว</span></span>
+  </button>
+  <button class="btn shop" data-app="stock">
+    <span class="icon">📦</span>
+    <span><span class="t">สต๊อก</span><span class="d">นับสต๊อก รับของ ส่งสาขา ของเสีย</span></span>
+  </button>
+  <button class="btn shop" data-app="expense">
+    <span class="icon">📷</span>
+    <span><span class="t">ส่งบิลค่าใช้จ่าย</span><span class="d">ซื้อของใช้ร้าน ถ่ายรูปบิลแนบทุกครั้ง</span></span>
+  </button>
+
+  <button id="install">📲 ติดตั้งแอปลงเครื่อง</button>
+  <p class="note" id="iosTip">📲 ติดตั้งเป็นแอป: กดปุ่มแชร์ของ Safari แล้วเลือก “เพิ่มไปยังหน้าจอโฮม”</p>
+  <p class="note">🔒 PIN เป็นของใครของมัน ห้ามบอกคนอื่น เพราะใช้ดูเงินหักของตัวเองได้<br>เจ้าของ/ผู้จัดการ: เข้าระบบเดียวกัน แล้วกดปุ่ม 👑</p>
+</main>
+</section>
+
+<section id="app" class="view hidden">
+  <div class="bar">
+    <button id="back" aria-label="กลับหน้าแรก">‹ หน้าแรก</button>
+    <div class="title" id="title"></div>
+    <button id="reload" aria-label="โหลดใหม่">⟳</button>
+  </div>
+  <div class="frames" id="frames"></div>
+</section>
+
+<script>
+// ลิงก์ระบบ (เหมือนหน้ารวมเดิม) — ถ้า Deploy ใหม่แล้ว URL เปลี่ยน ให้แก้ตรงนี้ที่เดียว
+const APPS = {
+  checkin: { title: 'เข้างาน / เลิกงาน', url: 'https://script.google.com/macros/s/AKfycby8qgSN0wLikdEyR9m11B3g1HtOJxGhv5T9WphTsoUen5d364ZAuBh3GGtzBJjyC7iT/exec' },
+  close:   { title: 'ปิดยอดประจำวัน',   url: 'https://script.google.com/macros/s/AKfycbwIf_mBwdGRbOUctyFPI2oq3MktDQdq3VZkgJDu3pQ6Xmwum_K3H2WHgouyddLQJyxS/exec' },
+  stock:   { title: 'สต๊อก',             url: 'https://script.google.com/macros/s/AKfycbxyuNI9VahtgfBja1zP14IMzqMI7UnV9wVsxVxYmDdsNQqOskoGXsSDnwmQ5l9V38H-/exec' },
+  expense: { title: 'ส่งบิลค่าใช้จ่าย',   url: 'https://script.google.com/macros/s/AKfycbxfyu-UYoan26h7GryYckAEBuvUt7snaaHr1ehxefxWQrXyk20_rNydkfVd7GB5oc8FtQ/exec' }
+};
+const $ = id => document.getElementById(id);
+let current = null;
+
+try { $('today').textContent = new Date().toLocaleDateString('th-TH', { weekday:'long', day:'numeric', month:'long', year:'numeric' }); } catch (e) {}
+
+// เปิดระบบในแอป (แต่ละระบบค้างไว้ สลับกลับมาไม่ต้องล็อกอินใหม่)
+function openApp(key, push) {
+  const a = APPS[key]; if (!a) return;
+  current = key;
+  $('title').textContent = a.title;
+  document.querySelectorAll('.frames > div').forEach(d => d.classList.add('hidden'));
+  let box = $('box-' + key);
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'box-' + key;
+    box.innerHTML = '<div class="loading"><div class="spin"></div><div>กำลังเปิด ' + a.title + '…</div></div>';
+    const f = document.createElement('iframe');
+    f.src = a.url;
+    f.allow = 'camera; geolocation; clipboard-write';
+    f.style.visibility = 'hidden';
+    f.onload = () => { f.style.visibility = 'visible'; const l = box.querySelector('.loading'); if (l) l.remove(); };
+    box.appendChild(f);
+    $('frames').appendChild(box);
+    // ถ้าเปิดไม่ขึ้นใน 20 วินาที ให้ปุ่มเปิดนอกแอป
+    setTimeout(() => {
+      const l = box.querySelector('.loading');
+      if (l) l.innerHTML = '<div>เปิดในแอปไม่ขึ้น</div><button onclick="window.open(APPS[\'' + key + '\'].url,\'_blank\')">เปิดในเบราว์เซอร์แทน</button>';
+    }, 20000);
+  }
+  box.classList.remove('hidden');
+  $('home').classList.add('hidden');
+  $('app').classList.remove('hidden');
+  if (push !== false) history.pushState({ app: key }, '', '#' + key);
+}
+function goHome() {
+  $('app').classList.add('hidden');
+  $('home').classList.remove('hidden');
+  current = null;
+}
+document.querySelectorAll('[data-app]').forEach(b => b.addEventListener('click', () => openApp(b.dataset.app)));
+$('back').onclick = () => { if (history.state && history.state.app) history.back(); else goHome(); };
+$('reload').onclick = () => {
+  if (!current) return;
+  const box = $('box-' + current); if (box) box.remove();
+  openApp(current, false);
+};
+// ปุ่มย้อนกลับของ Android = กลับหน้าแรก
+window.addEventListener('popstate', e => { if (e.state && e.state.app) openApp(e.state.app, false); else goHome(); });
+if (location.hash && APPS[location.hash.slice(1)]) { history.replaceState(null, '', location.pathname); }
+
+// ปุ่มติดตั้ง
+const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+let deferred = null;
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; if (!standalone) $('install').style.display = 'block'; });
+$('install').onclick = async () => { if (!deferred) return; deferred.prompt(); await deferred.userChoice; deferred = null; $('install').style.display = 'none'; };
+if (!standalone && /iphone|ipad|ipod/i.test(navigator.userAgent)) $('iosTip').style.display = 'block';
+
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+</script>
+</body>
+</html>
