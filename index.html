@@ -110,7 +110,7 @@
     <span class="icon">📒</span>
     <span><span class="t">ค่าใช้จ่าย</span><span class="d">บันทึกบิล ตรวจบิล ลงรหัสบัญชี</span></span>
   </button>
-  <button class="btn bossb" data-link="https://docs.google.com/spreadsheets/d/163FoTiGgu4_lEz4Tc8Fx7ZRcIpTi_hMJHikiGuQNBls/edit">
+  <button class="btn bossb" data-app="audit">
     <span class="icon">🔍</span>
     <span><span class="t">ฝ่ายตรวจสอบ</span><span class="d">เทียบยอดขาย เทียบแก้ว ของใกล้หมด</span></span>
   </button>
@@ -136,7 +136,8 @@ const APPS = {
   checkin: { title: 'เข้างาน / เลิกงาน', url: 'https://script.google.com/macros/s/AKfycby8qgSN0wLikdEyR9m11B3g1HtOJxGhv5T9WphTsoUen5d364ZAuBh3GGtzBJjyC7iT/exec' },
   close:   { title: 'ปิดยอดประจำวัน',   url: 'https://script.google.com/macros/s/AKfycbwIf_mBwdGRbOUctyFPI2oq3MktDQdq3VZkgJDu3pQ6Xmwum_K3H2WHgouyddLQJyxS/exec' },
   stock:   { title: 'สต๊อก',             url: 'https://script.google.com/macros/s/AKfycbxyuNI9VahtgfBja1zP14IMzqMI7UnV9wVsxVxYmDdsNQqOskoGXsSDnwmQ5l9V38H-/exec' },
-  expense: { title: 'ค่าใช้จ่าย', url: 'https://script.google.com/macros/s/AKfycby6sKBjAhTtTIzs4fElvIDwuP0XlXv9GtuQwsMFio-_2vzcnll-h8swBcBTFGDfZqjW/exec' }
+  expense: { title: 'ค่าใช้จ่าย', url: 'https://script.google.com/macros/s/AKfycby6sKBjAhTtTIzs4fElvIDwuP0XlXv9GtuQwsMFio-_2vzcnll-h8swBcBTFGDfZqjW/exec' },
+  audit:   { title: 'ฝ่ายตรวจสอบ',       url: 'https://script.google.com/macros/s/AKfycbz1yD3qBAGJbdAy72IiuBMAAtv1AGx_Jw2WbLYqy9jtkzMwiYguZ863-XoJmJEvhJC8Cg/exec' }
 };
 const $ = id => document.getElementById(id);
 let current = null;
