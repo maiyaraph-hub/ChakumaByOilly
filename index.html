@@ -47,6 +47,12 @@
   .icon{flex:0 0 52px;height:52px;border-radius:50%;display:grid;place-items:center;font-size:26px}
   button.btn.me{border-left:8px solid var(--tea)} .me .icon{background:var(--tea)}
   button.btn.shop{border-left:8px solid var(--matcha)} .shop .icon{background:var(--matcha)}
+  details.boss{margin-top:22px}
+  details.boss summary{list-style:none;cursor:pointer;font-family:"Mitr",sans-serif;font-size:18px;padding:12px 0;color:var(--soft)}
+  details.boss summary::-webkit-details-marker{display:none}
+  details.boss summary::after{content:" ▾"}
+  details.boss[open] summary::after{content:" ▴"}
+  button.btn.bossb{border-left:8px solid var(--pearl)} .bossb .icon{background:var(--pearl)}
   .t{font-family:"Mitr",sans-serif;font-size:20px;font-weight:500;display:block}
   .d{font-size:15px;color:var(--soft);display:block}
   .note{margin-top:24px;padding:14px 16px;border-radius:14px;background:var(--paper);border:1px dashed var(--line);font-size:15px}
@@ -97,14 +103,21 @@
     <span class="icon">📦</span>
     <span><span class="t">สต๊อก</span><span class="d">นับสต๊อก รับของ ส่งสาขา ของเสีย</span></span>
   </button>
-  <button class="btn shop" data-app="expense">
-    <span class="icon">📷</span>
-    <span><span class="t">ส่งบิลค่าใช้จ่าย</span><span class="d">ซื้อของใช้ร้าน ถ่ายรูปบิลแนบทุกครั้ง</span></span>
+
+  <h2>เจ้าของร้าน</h2>
+  <p class="hint">ใช้ PIN เจ้าของเท่านั้น</p>
+  <button class="btn bossb" data-app="expense">
+    <span class="icon">📒</span>
+    <span><span class="t">ค่าใช้จ่าย</span><span class="d">บันทึกบิล ตรวจบิล ลงรหัสบัญชี</span></span>
+  </button>
+  <button class="btn bossb" data-link="https://docs.google.com/spreadsheets/d/163FoTiGgu4_lEz4Tc8Fx7ZRcIpTi_hMJHikiGuQNBls/edit">
+    <span class="icon">🔍</span>
+    <span><span class="t">ฝ่ายตรวจสอบ</span><span class="d">เทียบยอดขาย เทียบแก้ว ของใกล้หมด</span></span>
   </button>
 
   <button id="install">📲 ติดตั้งแอปลงเครื่อง</button>
   <p class="note" id="iosTip">📲 ติดตั้งเป็นแอป: กดปุ่มแชร์ของ Safari แล้วเลือก “เพิ่มไปยังหน้าจอโฮม”</p>
-  <p class="note">🔒 PIN เป็นของใครของมัน ห้ามบอกคนอื่น เพราะใช้ดูเงินหักของตัวเองได้<br>เจ้าของ/ผู้จัดการ: เข้าระบบเดียวกัน แล้วกดปุ่ม 👑</p>
+  <p class="note">🔒 PIN เป็นของใครของมัน ห้ามบอกคนอื่น เพราะใช้ดูเงินหักของตัวเองได้</p>
 </main>
 </section>
 
@@ -123,7 +136,7 @@ const APPS = {
   checkin: { title: 'เข้างาน / เลิกงาน', url: 'https://script.google.com/macros/s/AKfycby8qgSN0wLikdEyR9m11B3g1HtOJxGhv5T9WphTsoUen5d364ZAuBh3GGtzBJjyC7iT/exec' },
   close:   { title: 'ปิดยอดประจำวัน',   url: 'https://script.google.com/macros/s/AKfycbwIf_mBwdGRbOUctyFPI2oq3MktDQdq3VZkgJDu3pQ6Xmwum_K3H2WHgouyddLQJyxS/exec' },
   stock:   { title: 'สต๊อก',             url: 'https://script.google.com/macros/s/AKfycbxyuNI9VahtgfBja1zP14IMzqMI7UnV9wVsxVxYmDdsNQqOskoGXsSDnwmQ5l9V38H-/exec' },
-  expense: { title: 'ส่งบิลค่าใช้จ่าย',   url: 'https://script.google.com/macros/s/AKfycbxfyu-UYoan26h7GryYckAEBuvUt7snaaHr1ehxefxWQrXyk20_rNydkfVd7GB5oc8FtQ/exec' }
+  expense: { title: 'ค่าใช้จ่าย', url: 'https://script.google.com/macros/s/AKfycby6sKBjAhTtTIzs4fElvIDwuP0XlXv9GtuQwsMFio-_2vzcnll-h8swBcBTFGDfZqjW/exec' }
 };
 const $ = id => document.getElementById(id);
 let current = null;
@@ -165,6 +178,8 @@ function goHome() {
   current = null;
 }
 document.querySelectorAll('[data-app]').forEach(b => b.addEventListener('click', () => openApp(b.dataset.app)));
+// ปุ่มที่เปิดนอกแอป (Google Sheets ต้องล็อกอินบัญชีเจ้าของ เปิดซ้อนในแอปไม่ได้)
+document.querySelectorAll('[data-link]').forEach(b => b.addEventListener('click', () => window.open(b.dataset.link, '_blank')));
 $('back').onclick = () => { if (history.state && history.state.app) history.back(); else goHome(); };
 $('reload').onclick = () => {
   if (!current) return;
